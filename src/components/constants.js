@@ -1,0 +1,65 @@
+import VISA_ICON from './assets/visa.png';
+import DISCOVER_ICON from './assets/discover.png';
+import MASTER_CARD_ICON from './assets/masterCard.png';
+
+export const OTHERCARDS = [
+    /[1-9]/,
+    /\d/,
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+];
+
+export const CARD = [
+    'VISA',
+    'MASTERCARD',
+    'DISCOVER'
+];
+
+export const CARDICON = {
+    VISA: VISA_ICON,
+    MASTERCARD: MASTER_CARD_ICON,
+    DISCOVER: DISCOVER_ICON
+}
+
+
+/* Amex Regex Pattern_JUST A NOTE. AMEX NOT USED IN PROJECT.
+export const AMERICANEXPRESS = [
+    /[1-9]/,
+    /\d/,
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+]
+*/
