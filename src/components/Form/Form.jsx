@@ -19,11 +19,32 @@ class Form extends React.Component {
   }
 
   handleInputData = (e) => {
-    this.setState((prevState) => ({
-      cardData: { 
-        ...prevState.cardData, 
-        [e.target.name]: e.target.value 
-    }}));
+    if (e.target.name === "card") {
+      let mask = e.target.value.split(" ").join("");
+      if (mask.length) {
+        mask = mask.match(new RegExp(".{1,4}", "g")).join(" ");
+        this.setState((prevState) => ({
+          cardData: {
+            ...prevState.cardData,
+            [e.target.name]: mask,
+          },
+        }));
+      } else {
+        this.setState((prevState) => ({
+          cardData: {
+            ...prevState.cardData,
+            [e.target.name]: "",
+          },
+        }));
+      }
+    } else {
+      this.setState((prevState) => ({
+        cardData: {
+          ...prevState.cardData,
+          [e.target.name]: e.target.value,
+        },
+      }));
+    }
   };
 
   render() {
