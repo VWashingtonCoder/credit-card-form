@@ -21,11 +21,25 @@ class Form extends React.Component {
     };
   }
 
+  findDebitCardType = (cardNumber) => {
+    const regexPattern = {
+      MASTERCARD: /^5[1-5][0-9]{1,}|^2[2-7][0-9]{1,}$/,
+      VISA: /^4[0-9]{2,}$/,
+      DISCOVER: /^6(?:011|5[0-9]{2})[0-9]{3,}$/,
+      // AMERICAN_EXPRESS: /^3[47][0-9]{5,}$/
+    };
+    for(const card in regexPattern) {
+      if (cardNumber.replace(/[^\d]/g, '').match(regexPattern[card])) return card;
+    }
+    return '';
+  }
+
   handleValdations = (type, value) => {
     switch(type) {
       case 'card':
         //find card type
         // setState cardType, error
+        this.setState({ cardType: this.findDebitCardType(value) });
         break;
       case 'cardHolder':
         // checks for spaces and numbers
