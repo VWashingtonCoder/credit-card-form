@@ -1,4 +1,5 @@
 import React from "react";
+import { OTHERCARDS } from "../constants";
 import InputBase from "../InputBase/InputBase";
 import "./Form.css";
 
@@ -14,11 +15,39 @@ class Form extends React.Component {
     super();
     this.state = {
       cardData: INIT_CARD,
-      maxLength: 19,
+      maxLength: OTHERCARDS.length,
+      error: {},
+      cardType: null,
     };
   }
 
+  handleValdations = (type, value) => {
+    switch(type) {
+      case 'card':
+        //find card type
+        // setState cardType, error
+        break;
+      case 'cardHolder':
+        // checks for spaces and numbers
+        // setState error
+        break;
+      case 'expiry':
+        // check date format
+        // setState error
+        break;
+      case 'securityCode':
+        // check for min length
+        // setState error
+        break;
+      default:
+        break;
+    }
+  }
+
+  handleBlur = (e) => this.handleValdations(e.target.name, e.target.value)
+
   handleInputData = (e) => {
+
     if (e.target.name === "card") {
       let mask = e.target.value.split(" ").join("");
       if (mask.length) {
@@ -69,6 +98,7 @@ class Form extends React.Component {
                   autoComplete="off"
                   maxLength={this.state.maxLength}
                   name={item.name}
+                  onBlur={this.handleBlur}
                 />
               ))
             : null}
