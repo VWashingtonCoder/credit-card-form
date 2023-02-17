@@ -1,6 +1,7 @@
 import React from "react";
 import { OTHERCARDS } from "../constants";
 import InputBase from "../InputBase/InputBase";
+import { cardNumberValidation } from "../validations";
 import "./Form.css";
 
 const INIT_CARD = {
@@ -35,11 +36,21 @@ class Form extends React.Component {
   }
 
   handleValdations = (type, value) => {
+    let errorText;
+
     switch(type) {
       case 'card':
         //find card type
+        errorText = cardNumberValidation(value);
+        this.setState((prevState) => ({ 
+          cardType: this.findDebitCardType(value),
+          error: {
+            ...prevState.error,
+            cardError: errorText
+          }, 
+        }));
         // setState cardType, error
-        this.setState({ cardType: this.findDebitCardType(value) });
+
         break;
       case 'cardHolder':
         // checks for spaces and numbers
