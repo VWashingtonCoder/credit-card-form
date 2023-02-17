@@ -1,7 +1,12 @@
 import React from "react";
 import { OTHERCARDS } from "../constants";
 import InputBase from "../InputBase/InputBase";
-import { cardNumberValidation } from "../validations";
+import { 
+  cardExpireValidation, 
+  cardNumberValidation, 
+  onlyTextValidation, 
+  securityCodeValidation 
+} from "../validations";
 import "./Form.css";
 
 const INIT_CARD = {
@@ -40,7 +45,6 @@ class Form extends React.Component {
 
     switch(type) {
       case 'card':
-        //find card type
         errorText = cardNumberValidation(value);
         this.setState((prevState) => ({ 
           cardType: this.findDebitCardType(value),
@@ -49,20 +53,18 @@ class Form extends React.Component {
             cardError: errorText
           }, 
         }));
-        // setState cardType, error
-
         break;
       case 'cardHolder':
-        // checks for spaces and numbers
-        // setState error
+        errorText = onlyTextValidation(value)
+        this.setState((prevState) => ({ error: { ...prevState.error, cardHolderError: errorText }}));
         break;
       case 'expiry':
-        // check date format
-        // setState error
+        errorText = cardExpireValidation(value);
+        this.setState((prevState) => ({ error: { ...prevState.error, expiryError: errorText }}));
         break;
       case 'securityCode':
-        // check for min length
-        // setState error
+        errorText = securityCodeValidation(3, value);
+        this.setState((prevState) => ({ error: { ...prevState.error, securityCodeError: errorText }}));
         break;
       default:
         break;
@@ -103,10 +105,10 @@ class Form extends React.Component {
 
   render() {
     const inputData = [
-      { label: "Card Number", name: "card", type: "text" },
-      { label: "CardHolder's Name", name: "cardHolder", type: "text" },
-      { label: "Expiry Date (MM/YY)", name: "expiry", type: "text" },
-      { label: "Security Code", name: "securityCode", type: "text" },
+      { label: "Card Number", name: "card", type: "text", error: 'cardError' },
+      { label: "CardHolder's Name", name: "cardHolder", type: "text", error: 'cardHolderError' },
+      { label: "Expiry Date (MM/YY)", name: "expiry", type: "text", error: 'expiryError' },
+      { label: "Security Code", name: "securityCode", type: "text", error: 'securityCodeError' },
     ];
 
     return (
@@ -124,6 +126,16 @@ class Form extends React.Component {
                   maxLength={this.state.maxLength}
                   name={item.name}
                   onBlur={this.handleBlur}
+                  error={this.state.error}
+                  cardType={this.state.cardType}
+                  isCard={item.name === 'card'}
+                  errorM={
+                    (this.state.error
+                    && this.state.error[item.error]
+                    && this.state.error[item.error].length > 1)
+                      ? this.state.error[item.error]
+                      : null
+                  }
                 />
               ))
             : null}
