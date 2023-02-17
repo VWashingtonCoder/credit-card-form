@@ -27,17 +27,17 @@ export const cardExpireValidation = (value) => {
     if (value) {
         if (/^(0[1-9]|1[0-2])\/[0-9]{2}$/i.test(value.trim())) {
             let today = new Date();
-            const date = `${today.getFullYear()}-${today.getMonth() + 1}-${new Date(today.getFullYear(), today.getMonth + 1, 0).getDate()}`
+            const date = `${today.getFullYear()}-${today.getMonth() + 1}-${new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate()}`
             let currentDate = moment(new Date(date));
             let visaValue = value.split('/');
             let visaDate = new Date(`20${visaValue[1]}`, visaValue[0], 0);
             return currentDate < moment(visaDate)
                 ? undefined
                 : 'Please enter a valid date'
-        }
+        } 
     } else {
-        return 'Invalid date format';
-    }
+      return 'Invalid date format';
+  }
 }
 
 export const onlyTextValidation = (value) => {
