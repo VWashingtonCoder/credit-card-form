@@ -103,6 +103,29 @@ class Form extends React.Component {
     }
   };
 
+  checkErrorBeforeSave = () => {
+    let errorValue = {};
+    let isError = false;
+    Object.keys(this.state.cardData).forEach((val) => {
+      if (!this.state.cardData[val].length) {
+        errorValue = { ...errorValue, [`${val}Error`] : 'Required' };
+        isError = true;
+      }
+    });
+    this.setState({ error: errorValue });
+    return isError;
+  }
+
+  handleAddCard = (e) => {
+    e.preventDefault();
+    const errorCheck = this.checkErrorBeforeSave();
+    if (!errorCheck) {
+      this.setState({
+        cardData: INIT_CARD,
+        cardType: null
+      });
+    }
+  }
   render() {
     const inputData = [
       { label: "Card Number", name: "card", type: "text", error: 'cardError' },
@@ -114,7 +137,7 @@ class Form extends React.Component {
     return (
       <div>
         <h1>Add New Card</h1>
-        <form>
+        <form onSubmit={this.handleAddCard}>
           {inputData.length
             ? inputData.map((item) => (
                 <InputBase
